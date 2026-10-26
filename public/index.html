@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Leads Cygna · Instagram</title>
+<style>
+  :root {
+    --roxo: #5b3fd9; --roxo-claro: #eeeafd; --fundo: #f6f5fb; --texto: #1f1d2b; --cinza: #6b6880;
+    --borda: #e3e1ee; --verde: #1f9d55; --cinza-claro: #f0eff4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--fundo); color: var(--texto); }
+  header { background: #fff; border-bottom: 1px solid var(--borda); position: sticky; top: 0; z-index: 5; }
+  .topo { max-width: 1180px; margin: 0 auto; padding: 14px 16px 10px; display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; }
+  h1 { font-size: 18px; margin: 0; color: var(--roxo); }
+  .contadores { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { background: var(--cinza-claro); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--cinza); }
+  .chip b { color: var(--texto); }
+  .filtros { max-width: 1180px; margin: 0 auto; padding: 0 16px 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  input, select, button { font: inherit; }
+  .filtros input[type=search] { flex: 1 1 220px; }
+  .filtros input, .filtros select { border: 1px solid var(--borda); border-radius: 8px; padding: 7px 10px; background: #fff; min-width: 0; }
+  .filtros label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--cinza); }
+  main { max-width: 1180px; margin: 0 auto; padding: 14px 16px 40px; }
+  .lista { display: grid; gap: 10px; }
+  .lead { background: #fff; border: 1px solid var(--borda); border-left: 4px solid var(--borda); border-radius: 10px; padding: 12px 14px;
+          display: grid; grid-template-columns: minmax(200px, 1.1fr) 170px 170px minmax(260px, 2fr); gap: 14px; align-items: start; }
+  .lead.enviada { border-left-color: var(--roxo); background: #fbfaff; }
+  .nome { font-weight: 600; font-size: 15px; }
+  .meta { color: var(--cinza); font-size: 12px; margin-top: 2px; }
+  .ig { display: inline-block; margin-top: 6px; font-size: 13px; color: var(--roxo); text-decoration: none; font-weight: 600; }
+  .ig.buscar { color: var(--cinza); font-weight: 500; }
+  .ig:hover { text-decoration: underline; }
+  .rotulo { display: block; font-size: 11px; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+  .seg { display: grid; gap: 4px; }
+  .seg button { border: 1px solid var(--borda); background: #fff; border-radius: 7px; padding: 6px 8px; text-align: left; cursor: pointer; font-size: 13px; color: var(--cinza); }
+  .seg button:hover { border-color: var(--roxo); }
+  .seg button.on { background: var(--roxo); border-color: var(--roxo); color: #fff; font-weight: 600; }
+  .seg button.on.verde { background: var(--verde); border-color: var(--verde); }
+  .seg button.on.cinza { background: #77748a; border-color: #77748a; }
+  .seg button[disabled] { cursor: default; }
+  .msg p { margin: 0; background: var(--cinza-claro); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-height: 4.6em; overflow: hidden; cursor: pointer; }
+  .msg p.aberta { max-height: none; }
+  .acoes { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .btn { border: 0; border-radius: 7px; padding: 7px 12px; cursor: pointer; font-weight: 600; font-size: 13px; }
+  .btn.prim { background: var(--roxo); color: #fff; }
+  .btn.prim.ok { background: var(--verde); }
+  .btn.sec { background: var(--roxo-claro); color: var(--roxo); }
+  .salvando { opacity: .55; pointer-events: none; }
+  .aviso { text-align: center; color: var(--cinza); padding: 40px 0; }
+  .aviso.erro { color: #b42318; }
+  .pag { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 18px; color: var(--cinza); }
+  .pag button { border: 1px solid var(--borda); background: #fff; border-radius: 7px; padding: 6px 12px; cursor: pointer; }
+  .pag button:disabled { opacity: .4; cursor: default; }
+  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(90px); background: var(--texto); color: #fff;
+           padding: 8px 16px; border-radius: 8px; font-size: 13px; transition: transform .2s; max-width: 90vw; text-align: center; }
+  .toast.on { transform: translateX(-50%) translateY(0); }
+  @media (max-width: 900px) {
+    .lead { grid-template-columns: 1fr 1fr; }
+    .lead .ident, .lead .msg { grid-column: 1 / -1; }
+  }
+  @media (max-width: 600px) {
+    header { position: static; }
+    .filtros select { flex: 1 1 45%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="topo">
+    <h1>Leads Cygna · Instagram</h1>
+    <div class="contadores" id="contadores"></div>
+  </div>
+  <div class="filtros">
+    <input type="search" id="q" placeholder="Buscar por nome, @ ou bairro" aria-label="Buscar">
+    <select id="status" aria-label="Status">
+      <option value="">Todos os status</option>
+      <option>Não contatado</option>
+      <option>Mensagem enviada</option>
+    </select>
+    <select id="obs" aria-label="Observação">
+      <option value="">Toda observação</option>
+      <option value="-">Sem observação</option>
+      <option>Seguindo</option>
+      <option>Não tem insta</option>
+    </select>
+    <select id="cidade" aria-label="Cidade"><option value="">Todas as cidades</option></select>
+    <select id="segmento" aria-label="Segmento"><option value="">Todos os segmentos</option></select>
+    <label><input type="checkbox" id="ig"> Só com Instagram</label>
+  </div>
+</header>
+<main>
+  <div class="lista" id="lista"><div class="aviso">Carregando leads da planilha... (na primeira vez do dia pode levar até 1 minuto)</div></div>
+  <div class="pag" id="pag"></div>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const FILTROS = ['q', 'status', 'obs', 'cidade', 'segmento', 'ig'];
+let pagina = 0, itens = [], opcoesProntas = false, pedido = 0, ultimo = null;
+// marcações feitas nesta aba: garantem que a tela não "volte" enquanto o cache do servidor atualiza
+const feitas = {};
+
+const valor = id => $(id).type === 'checkbox' ? ($(id).checked ? '1' : '') : $(id).value;
+function salvarFiltros() {
+  try { localStorage.setItem('filtros', JSON.stringify({ ...Object.fromEntries(FILTROS.map(f => [f, valor(f)])), pagina })); } catch (e) {}
+}
+function restaurarFiltros() {
+  let f = {};
+  try { f = JSON.parse(localStorage.getItem('filtros')) || {}; } catch (e) {}
+  FILTROS.forEach(id => { if (f[id] !== undefined) { if ($(id).type === 'checkbox') $(id).checked = f[id] === '1'; else $(id).value = f[id]; } });
+  pagina = f.pagina || 0;
+}
+
+async function carregar() {
+  const meu = ++pedido;
+  const p = new URLSearchParams(Object.fromEntries(FILTROS.map(f => [f, valor(f)]).filter(([, v]) => v)));
+  p.set('pagina', pagina);
+  $('lista').classList.add('salvando');
+  try {
+    const r = await fetch('/api/leads?' + p);
+    const d = await r.json();
+    if (meu !== pedido) return;
+    if (!r.ok) throw new Error(d.erro || r.status);
+    if (!opcoesProntas) {
+      const preencher = (sel, lista) => {
+        const atual = $(sel).value;
+        lista.forEach(([v, n]) => $(sel).insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)} (${n.toLocaleString('pt-BR')})</option>`));
+        $(sel).value = atual;
+      };
+      preencher('cidade', d.opcoes.cidades);
+      preencher('segmento', d.opcoes.segmentos);
+      opcoesProntas = true;
+      restaurarFiltros();
+      if (valor('cidade') || valor('segmento')) return carregar();
+    }
+    pagina = d.pagina;
+    itens = d.itens.map(l => ({ ...l, ...feitas[l.id] }));
+    ultimo = d;
+    render(d);
+  } catch (e) {
+    $('lista').innerHTML = `<div class="aviso erro">Não foi possível carregar os leads: ${esc(e.message)}</div>`;
+  } finally {
+    if (meu === pedido) $('lista').classList.remove('salvando');
+  }
+}
+
+function igLink(l) {
+  if (l.ig) {
+    const h = l.ig.replace(/^@/, '');
+    return `<a class="ig" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener">Abrir @${esc(h)}</a>`;
+  }
+  const q = encodeURIComponent(`${l.nome} ${l.cidade} instagram`);
+  return `<a class="ig buscar" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">Procurar Instagram no Google</a>`;
+}
+
+function card(l) {
+  const enviada = l.status !== 'Não contatado';
+  const outroSt = !['Não contatado', 'Mensagem enviada'].includes(l.status);
+  const outraObs = l.obs && !['Seguindo', 'Não tem insta'].includes(l.obs);
+  const local = [l.bairro, l.cidade !== l.bairro ? l.cidade : ''].filter(Boolean).join(', ');
+  return `<article class="lead ${enviada ? 'enviada' : ''}" data-id="${esc(l.id)}">
+    <div class="ident">
+      <div class="nome">${esc(l.nome)}</div>
+      <div class="meta">${esc(l.segmento)}${local ? ' · ' + esc(local) : ''}</div>
+      ${igLink(l)}
+    </div>
+    <div><span class="rotulo">Status</span><div class="seg">
+      <button data-status="Não contatado" class="${l.status === 'Não contatado' ? 'on cinza' : ''}">Não contatado</button>
+      <button data-status="Mensagem enviada" class="${l.status === 'Mensagem enviada' ? 'on' : ''}">Mensagem enviada</button>
+      ${outroSt ? `<button class="on" disabled title="Status vindo da planilha">${esc(l.status)}</button>` : ''}
+    </div></div>
+    <div><span class="rotulo">Observação</span><div class="seg">
+      <button data-obs="Seguindo" class="${l.obs === 'Seguindo' ? 'on verde' : ''}">Seguindo</button>
+      <button data-obs="Não tem insta" class="${l.obs === 'Não tem insta' ? 'on cinza' : ''}">Não tem insta</button>
+      ${outraObs ? `<button class="on" disabled title="${esc(l.obs)}">${esc(String(l.obs).slice(0, 28))}</button>` : ''}
+    </div></div>
+    <div class="msg"><span class="rotulo">Mensagem</span>
+      <p title="Clique para ver inteira">${esc(l.msg)}</p>
+      <div class="acoes">
+        <button class="btn prim" data-copiar>Copiar mensagem</button>
+        ${!enviada ? '<button class="btn sec" data-enviada>Marcar enviada</button>' : ''}
+      </div>
+    </div>
+  </article>`;
+}
+
+function render(d) {
+  $('lista').innerHTML = itens.length ? itens.map(card).join('') : '<div class="aviso">Nenhum lead com esses filtros.</div>';
+  $('pag').innerHTML = d.paginas > 1
+    ? `<button id="ant" ${d.pagina === 0 ? 'disabled' : ''}>← Anterior</button> Página ${d.pagina + 1} de ${d.paginas} <button id="prox" ${d.pagina >= d.paginas - 1 ? 'disabled' : ''}>Próxima →</button>`
+    : '';
+  if ($('ant')) $('ant').onclick = () => { pagina--; salvarFiltros(); carregar(); scrollTo(0, 0); };
+  if ($('prox')) $('prox').onclick = () => { pagina++; salvarFiltros(); carregar(); scrollTo(0, 0); };
+  contadores(d);
+}
+
+function contadores(d) {
+  const c = d.contadores, n = v => v.toLocaleString('pt-BR');
+  $('contadores').innerHTML = `<span class="chip">Na lista: <b>${n(d.total)}</b></span>
+    <span class="chip">Enviadas: <b>${n(c.enviadas)}</b></span>
+    <span class="chip">Seguindo: <b>${n(c.seguindo)}</b></span>
+    <span class="chip">Sem insta: <b>${n(c.semInsta)}</b></span>`;
+}
+
+function toast(t) {
+  $('toast').textContent = t; $('toast').classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('on'), 2200);
+}
+
+// aplica no card e nos contadores; devolve o estado anterior para poder desfazer
+function aplicar(l, novo) {
+  const antes = { status: l.status, obs: l.obs };
+  feitas[l.id] = { status: novo.status, obs: novo.obs };
+  Object.assign(l, feitas[l.id]);
+  if (ultimo) {
+    const c = ultimo.contadores, conta = (x, k, v) => (x[k] === v ? 1 : 0);
+    c.enviadas += (novo.status !== 'Não contatado') - (antes.status !== 'Não contatado');
+    c.seguindo += conta(novo, 'obs', 'Seguindo') - conta(antes, 'obs', 'Seguindo');
+    c.semInsta += conta(novo, 'obs', 'Não tem insta') - conta(antes, 'obs', 'Não tem insta');
+    contadores(ultimo);
+  }
+  const art = document.querySelector(`.lead[data-id="${CSS.escape(l.id)}"]`);
+  if (art) art.outerHTML = card(l);
+  return antes;
+}
+
+// a tela muda na hora; a planilha do Google leva alguns segundos e, se falhar, desfaz
+async function marcar(art, l, campos) {
+  const antes = aplicar(l, { status: campos.status ?? l.status, obs: 'obs' in campos ? campos.obs : l.obs });
+  try {
+    const r = await fetch('/api/marcar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: l.id, ...campos }) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.erro || r.status);
+    aplicar(l, d);
+    toast('Salvo na planilha');
+  } catch (e) {
+    aplicar(l, antes);
+    toast('Não salvou na planilha: ' + e.message);
+  }
+}
+
+async function copiar(texto) {
+  try { await navigator.clipboard.writeText(texto); }
+  catch (e) {
+    const t = document.createElement('textarea'); t.value = texto; document.body.appendChild(t); t.select();
+    document.execCommand('copy'); t.remove();
+  }
+}
+
+$('lista').addEventListener('click', async e => {
+  const art = e.target.closest('.lead'); if (!art) return;
+  const l = itens.find(x => x.id === art.dataset.id);
+  if (e.target.matches('.msg p')) { e.target.classList.toggle('aberta'); return; }
+  const b = e.target.closest('button');
+  if (!b || b.disabled) return;
+  if (b.dataset.status) { if (b.dataset.status !== l.status) marcar(art, l, { status: b.dataset.status }); }
+  else if (b.dataset.obs) marcar(art, l, { obs: l.obs === b.dataset.obs ? '' : b.dataset.obs });
+  else if (b.hasAttribute('data-enviada')) marcar(art, l, { status: 'Mensagem enviada' });
+  else if (b.hasAttribute('data-copiar')) {
+    await copiar(l.msg);
+    b.textContent = 'Copiada!'; b.classList.add('ok');
+    setTimeout(() => { b.textContent = 'Copiar mensagem'; b.classList.remove('ok'); }, 1500);
+    toast('Mensagem copiada. Cole no direct do Instagram.');
+  }
+});
+
+let atraso;
+FILTROS.forEach(id => $(id).addEventListener(id === 'q' ? 'input' : 'change', () => {
+  clearTimeout(atraso);
+  atraso = setTimeout(() => { pagina = 0; salvarFiltros(); carregar(); }, id === 'q' ? 350 : 0);
+}));
+
+restaurarFiltros();
+carregar();
+</script>
+</body>
+</html>

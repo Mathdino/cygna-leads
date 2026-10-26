@@ -1,0 +1,11 @@
+{
+  "name": "leads-cygna-instagram",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node dev.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

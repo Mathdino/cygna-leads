@@ -1,0 +1,6 @@
+.env
+.vercel
+node_modules
+dados-teste.json
+credenciais.json
+apps-script.gs
