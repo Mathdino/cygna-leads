@@ -38,31 +38,37 @@
 
   /* ---------- lista ---------- */
   main { max-width: 1400px; margin: 0 auto; padding: 16px 20px 40px; }
-  .lista { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
-  .lead { background: #fff; border: 1px solid var(--borda); border-top: 5px solid var(--borda); border-radius: 14px; padding: 14px 16px 16px;
-          display: flex; flex-direction: column; gap: 12px; transition: opacity .15s; }
+  .lista { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: stretch; }
+  .lead { position: relative; background: #fff; border: 1px solid var(--borda); border-top: 5px solid var(--borda); border-radius: 14px; padding: 14px 16px 16px;
+          display: flex; flex-direction: column; gap: 12px; transition: opacity .15s, background .2s; }
   .lead.enviada { border-top-color: var(--roxo); }
   .lead.salvando { opacity: .6; }
-  .nome { font-weight: 700; font-size: 17px; line-height: 1.3; }
+  /* concluído = mensagem enviada + seguindo */
+  .lead.concluido { background: var(--verde-claro); border-color: #b9e3ca; border-top-color: var(--verde); }
+  .lead.concluido .msg { background: #fff; }
+  .selo { display: none; position: absolute; top: 10px; right: 12px; background: var(--verde); color: #fff; font-size: 12px; font-weight: 700;
+          padding: 3px 10px; border-radius: 999px; letter-spacing: .3px; }
+  .lead.concluido .selo { display: block; }
+  .lead.concluido .cabeca { padding-right: 96px; }
+  /* tamanho fixo: nome em até 2 linhas, resto em 1 linha */
+  .nome { font-weight: 700; font-size: 17px; line-height: 1.3; height: 2.6em; overflow: hidden;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-word; }
+  .meta, .handle { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { color: var(--cinza); font-size: 14px; margin-top: 2px; }
-  .handle { color: var(--roxo); font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-all; }
+  .handle { color: var(--roxo); font-size: 15px; font-weight: 600; margin-top: 4px; }
   .handle.sem { color: var(--cinza); font-weight: 500; }
+  .base { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
 
-  .msg { margin: 0; background: var(--cinza-claro); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; line-height: 1.5; }
+  .msg { margin: 0; background: var(--cinza-claro); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; line-height: 1.5; cursor: pointer; }
   .msg span { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .msg.aberta span { display: block; }
-  .ver-msg { align-self: flex-start; background: none; border: 0; color: var(--roxo); font-size: 14px; font-weight: 600; padding: 0; min-height: 44px; }
 
   .acao-principal { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border-radius: 12px; border: 0;
                     background: var(--roxo); color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; text-align: center; padding: 0 14px; }
   .acao-principal:active { background: var(--roxo-esc); }
   .acao-principal.ok { background: var(--verde); }
   .acao-principal.sec { background: var(--roxo-claro); color: var(--roxo); }
-  .acoes-sec { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .btn-sec { min-height: var(--toque); border-radius: 10px; border: 1px solid var(--borda); background: #fff; font-size: 15px; font-weight: 600; color: var(--texto);
-             display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 0 8px; text-align: center; }
-  .btn-sec:active { background: var(--cinza-claro); }
-  .btn-sec.ok { border-color: var(--verde); color: var(--verde); background: var(--verde-claro); }
+  .lead.concluido .acao-principal { background: #fff; color: var(--verde); border: 1px solid #9fd3b4; }
 
   .grupo .rotulo { display: block; font-size: 12px; color: var(--cinza); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; font-weight: 600; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -192,22 +198,17 @@ function card(l) {
   const principal = l.ig
     ? `<a class="acao-principal" data-copiar-abrir href="${linkIg(l)}" target="_blank" rel="noopener">Copiar e abrir Instagram</a>`
     : `<a class="acao-principal sec" href="${linkBusca(l)}" target="_blank" rel="noopener">Procurar Instagram no Google</a>`;
-  return `<article class="lead ${enviada ? 'enviada' : ''}" data-id="${esc(l.id)}">
-    <div>
-      <div class="nome">${esc(l.nome)}</div>
+  const concluido = enviada && l.obs === 'Seguindo';
+  return `<article class="lead ${enviada ? 'enviada' : ''} ${concluido ? 'concluido' : ''}" data-id="${esc(l.id)}">
+    <span class="selo">✓ Concluído</span>
+    <div class="cabeca">
+      <div class="nome" title="${esc(l.nome)}">${esc(l.nome)}</div>
       <div class="meta">${esc(l.segmento)}${local ? ' · ' + esc(local) : ''}</div>
       <div class="handle ${l.ig ? '' : 'sem'}">${l.ig ? '@' + esc(handle(l)) : 'Sem Instagram na planilha'}</div>
     </div>
-    <div>
-      <p class="msg"><span>${esc(l.msg)}</span></p>
-      <button class="ver-msg" data-ver>Ver mensagem inteira</button>
-    </div>
+    <p class="msg" title="Toque para ver a mensagem inteira"><span>${esc(l.msg)}</span></p>
+    <div class="base">
     ${principal}
-    <div class="acoes-sec">
-      <button class="btn-sec" data-copiar>Só copiar</button>
-      ${l.ig ? `<a class="btn-sec" href="${linkIg(l)}" target="_blank" rel="noopener">Só abrir perfil</a>`
-             : `<a class="btn-sec" href="${linkBusca(l)}" target="_blank" rel="noopener">Buscar no Google</a>`}
-    </div>
     <div class="grupo"><span class="rotulo">Status</span><div class="seg">
       <button data-status="Não contatado" class="${l.status === 'Não contatado' ? 'on cinza' : ''}">Não contatado</button>
       <button data-status="Mensagem enviada" class="${l.status === 'Mensagem enviada' || outroSt ? 'on' : ''}">Mensagem enviada</button>
@@ -218,13 +219,12 @@ function card(l) {
       <button data-obs="Não tem insta" class="${l.obs === 'Não tem insta' ? 'on cinza' : ''}">Não tem insta</button>
       ${outraObs ? `<div class="extra">Na planilha: ${esc(l.obs)}</div>` : ''}
     </div></div>
+    </div>
   </article>`;
 }
 
 function render(d) {
   $('lista').innerHTML = itens.length ? itens.map(card).join('') : '<div class="aviso">Nenhum lead com esses filtros.</div>';
-  // esconde "ver mensagem inteira" quando o texto já cabe
-  document.querySelectorAll('.lead .msg span').forEach(t => { if (t.scrollHeight <= t.clientHeight + 2) t.parentElement.nextElementSibling.remove(); });
   $('pag').innerHTML = d.paginas > 1
     ? `<button id="ant" ${d.pagina === 0 ? 'disabled' : ''}>← Anterior</button> Página ${d.pagina + 1} de ${d.paginas} <button id="prox" ${d.pagina >= d.paginas - 1 ? 'disabled' : ''}>Próxima →</button>`
     : '';
@@ -262,10 +262,7 @@ function aplicar(l, novo) {
   if (art) {
     const aberta = art.querySelector('.msg.aberta');
     art.outerHTML = card(l);
-    const novoArt = document.querySelector(`.lead[data-id="${CSS.escape(l.id)}"]`);
-    const t = novoArt.querySelector('.msg span');
-    if (aberta) { t.parentElement.classList.add('aberta'); novoArt.querySelector('[data-ver]')?.remove(); }
-    else if (t.scrollHeight <= t.clientHeight + 2) novoArt.querySelector('[data-ver]')?.remove();
+    if (aberta) document.querySelector(`.lead[data-id="${CSS.escape(l.id)}"] .msg`).classList.add('aberta');
   }
   return antes;
 }
@@ -305,20 +302,16 @@ function avisarCopiado(b, rotulo) {
 $('lista').addEventListener('click', e => {
   const art = e.target.closest('.lead'); if (!art) return;
   const l = itens.find(x => x.id === art.dataset.id);
+  const msg = e.target.closest('.msg');
+  if (msg) { msg.classList.toggle('aberta'); return; }
   const alvo = e.target.closest('button, a');
   if (!alvo) return;
-  if (alvo.hasAttribute('data-ver')) {
-    art.querySelector('.msg').classList.add('aberta'); alvo.remove(); return;
-  }
   if (alvo.hasAttribute('data-copiar-abrir')) {
     // deixa o link abrir normalmente; só copia antes
     copiar(l.msg);
     avisarCopiado(alvo, 'Copiada! Abrindo Instagram...');
     toast('Mensagem copiada. No Instagram, toque em Mensagem e cole.');
     return;
-  }
-  if (alvo.hasAttribute('data-copiar')) {
-    copiar(l.msg); avisarCopiado(alvo, 'Copiada!'); toast('Mensagem copiada.'); return;
   }
   if (alvo.dataset.status) { if (alvo.dataset.status !== l.status) marcar(l, { status: alvo.dataset.status }); return; }
   if (alvo.dataset.obs) marcar(l, { obs: l.obs === alvo.dataset.obs ? '' : alvo.dataset.obs });
