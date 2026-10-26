@@ -2,68 +2,100 @@
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- feito para o Galaxy Tab S10 FE: ~1150px deitado, ~720px em pé, só toque -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#5b3fd9">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icone-192.png">
 <title>Leads Cygna · Instagram</title>
 <style>
   :root {
-    --roxo: #5b3fd9; --roxo-claro: #eeeafd; --fundo: #f6f5fb; --texto: #1f1d2b; --cinza: #6b6880;
-    --borda: #e3e1ee; --verde: #1f9d55; --cinza-claro: #f0eff4;
+    --roxo: #5b3fd9; --roxo-esc: #4a31c0; --roxo-claro: #eeeafd; --fundo: #f4f3f9; --texto: #1f1d2b; --cinza: #615e75;
+    --borda: #dedbea; --verde: #17834a; --verde-claro: #e2f4ea; --cinza-claro: #efeef4; --toque: 48px;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--fundo); color: var(--texto); }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { touch-action: manipulation; }
+  body { margin: 0; font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: var(--fundo); color: var(--texto);
+         padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+
+  /* ---------- topo ---------- */
   header { background: #fff; border-bottom: 1px solid var(--borda); position: sticky; top: 0; z-index: 5; }
-  .topo { max-width: 1180px; margin: 0 auto; padding: 14px 16px 10px; display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; }
-  h1 { font-size: 18px; margin: 0; color: var(--roxo); }
-  .contadores { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip { background: var(--cinza-claro); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--cinza); }
+  .topo { max-width: 1400px; margin: 0 auto; padding: 12px 20px 8px; display: flex; gap: 8px 16px; align-items: center; flex-wrap: wrap; }
+  h1 { font-size: 20px; margin: 0; color: var(--roxo); white-space: nowrap; }
+  .contadores { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .chip { background: var(--cinza-claro); border-radius: 999px; padding: 4px 12px; font-size: 14px; color: var(--cinza); white-space: nowrap; }
   .chip b { color: var(--texto); }
-  .filtros { max-width: 1180px; margin: 0 auto; padding: 0 16px 12px; display: flex; gap: 8px; flex-wrap: wrap; }
-  input, select, button { font: inherit; }
-  .filtros input[type=search] { flex: 1 1 220px; }
-  .filtros input, .filtros select { border: 1px solid var(--borda); border-radius: 8px; padding: 7px 10px; background: #fff; min-width: 0; }
-  .filtros label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--cinza); }
-  main { max-width: 1180px; margin: 0 auto; padding: 14px 16px 40px; }
-  .lista { display: grid; gap: 10px; }
-  .lead { background: #fff; border: 1px solid var(--borda); border-left: 4px solid var(--borda); border-radius: 10px; padding: 12px 14px;
-          display: grid; grid-template-columns: minmax(200px, 1.1fr) 170px 170px minmax(260px, 2fr); gap: 14px; align-items: start; }
-  .lead.enviada { border-left-color: var(--roxo); background: #fbfaff; }
-  .nome { font-weight: 600; font-size: 15px; }
-  .meta { color: var(--cinza); font-size: 12px; margin-top: 2px; }
-  .ig { display: inline-block; margin-top: 6px; font-size: 13px; color: var(--roxo); text-decoration: none; font-weight: 600; }
-  .ig.buscar { color: var(--cinza); font-weight: 500; }
-  .ig:hover { text-decoration: underline; }
-  .rotulo { display: block; font-size: 11px; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
-  .seg { display: grid; gap: 4px; }
-  .seg button { border: 1px solid var(--borda); background: #fff; border-radius: 7px; padding: 6px 8px; text-align: left; cursor: pointer; font-size: 13px; color: var(--cinza); }
-  .seg button:hover { border-color: var(--roxo); }
-  .seg button.on { background: var(--roxo); border-color: var(--roxo); color: #fff; font-weight: 600; }
+  .filtros { max-width: 1400px; margin: 0 auto; padding: 0 20px 12px; display: grid; gap: 8px;
+             grid-template-columns: minmax(200px, 1.4fr) repeat(4, minmax(150px, 1fr)) auto; }
+  .filtros input[type=search], .filtros select { height: var(--toque); border: 1px solid var(--borda); border-radius: 10px; padding: 0 12px; background: #fff; min-width: 0; width: 100%; }
+  .filtros input[type=search] { font-size: 16px; }
+  .alternar { display: flex; align-items: center; gap: 10px; height: var(--toque); padding: 0 14px; border: 1px solid var(--borda); border-radius: 10px; background: #fff; font-size: 15px; white-space: nowrap; user-select: none; }
+  .alternar input { width: 22px; height: 22px; accent-color: var(--roxo); margin: 0; }
+
+  /* ---------- lista ---------- */
+  main { max-width: 1400px; margin: 0 auto; padding: 16px 20px 40px; }
+  .lista { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
+  .lead { background: #fff; border: 1px solid var(--borda); border-top: 5px solid var(--borda); border-radius: 14px; padding: 14px 16px 16px;
+          display: flex; flex-direction: column; gap: 12px; transition: opacity .15s; }
+  .lead.enviada { border-top-color: var(--roxo); }
+  .lead.salvando { opacity: .6; }
+  .nome { font-weight: 700; font-size: 17px; line-height: 1.3; }
+  .meta { color: var(--cinza); font-size: 14px; margin-top: 2px; }
+  .handle { color: var(--roxo); font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-all; }
+  .handle.sem { color: var(--cinza); font-weight: 500; }
+
+  .msg { margin: 0; background: var(--cinza-claro); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; line-height: 1.5; }
+  .msg span { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .msg.aberta span { display: block; }
+  .ver-msg { align-self: flex-start; background: none; border: 0; color: var(--roxo); font-size: 14px; font-weight: 600; padding: 0; min-height: 44px; }
+
+  .acao-principal { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border-radius: 12px; border: 0;
+                    background: var(--roxo); color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; text-align: center; padding: 0 14px; }
+  .acao-principal:active { background: var(--roxo-esc); }
+  .acao-principal.ok { background: var(--verde); }
+  .acao-principal.sec { background: var(--roxo-claro); color: var(--roxo); }
+  .acoes-sec { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-sec { min-height: var(--toque); border-radius: 10px; border: 1px solid var(--borda); background: #fff; font-size: 15px; font-weight: 600; color: var(--texto);
+             display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 0 8px; text-align: center; }
+  .btn-sec:active { background: var(--cinza-claro); }
+  .btn-sec.ok { border-color: var(--verde); color: var(--verde); background: var(--verde-claro); }
+
+  .grupo .rotulo { display: block; font-size: 12px; color: var(--cinza); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; font-weight: 600; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .seg button { min-height: var(--toque); border: 1px solid var(--borda); background: #fff; border-radius: 10px; font-size: 15px; color: var(--cinza); padding: 0 6px; }
+  .seg button.on { background: var(--roxo); border-color: var(--roxo); color: #fff; font-weight: 700; }
   .seg button.on.verde { background: var(--verde); border-color: var(--verde); }
-  .seg button.on.cinza { background: #77748a; border-color: #77748a; }
-  .seg button[disabled] { cursor: default; }
-  .msg p { margin: 0; background: var(--cinza-claro); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-height: 4.6em; overflow: hidden; cursor: pointer; }
-  .msg p.aberta { max-height: none; }
-  .acoes { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-  .btn { border: 0; border-radius: 7px; padding: 7px 12px; cursor: pointer; font-weight: 600; font-size: 13px; }
-  .btn.prim { background: var(--roxo); color: #fff; }
-  .btn.prim.ok { background: var(--verde); }
-  .btn.sec { background: var(--roxo-claro); color: var(--roxo); }
-  .salvando { opacity: .55; pointer-events: none; }
-  .aviso { text-align: center; color: var(--cinza); padding: 40px 0; }
+  .seg button.on.cinza { background: #6f6c82; border-color: #6f6c82; }
+  .seg .extra { grid-column: 1 / -1; background: var(--cinza-claro); border-radius: 8px; padding: 6px 10px; font-size: 13px; color: var(--cinza); }
+
+  .aviso { grid-column: 1 / -1; text-align: center; color: var(--cinza); padding: 48px 0; font-size: 16px; }
   .aviso.erro { color: #b42318; }
-  .pag { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 18px; color: var(--cinza); }
-  .pag button { border: 1px solid var(--borda); background: #fff; border-radius: 7px; padding: 6px 12px; cursor: pointer; }
-  .pag button:disabled { opacity: .4; cursor: default; }
-  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(90px); background: var(--texto); color: #fff;
-           padding: 8px 16px; border-radius: 8px; font-size: 13px; transition: transform .2s; max-width: 90vw; text-align: center; }
+  .lista.carregando { opacity: .55; pointer-events: none; }
+
+  .pag { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 22px; color: var(--cinza); font-size: 15px; }
+  .pag button { min-height: var(--toque); min-width: 130px; border: 1px solid var(--borda); background: #fff; border-radius: 10px; font-weight: 600; }
+  .pag button:disabled { opacity: .4; }
+
+  .toast { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(120px);
+           background: var(--texto); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 15px; transition: transform .2s; max-width: 90vw; text-align: center; z-index: 10; }
   .toast.on { transform: translateX(-50%) translateY(0); }
-  @media (max-width: 900px) {
-    .lead { grid-template-columns: 1fr 1fr; }
-    .lead .ident, .lead .msg { grid-column: 1 / -1; }
+
+  /* tablet em pé (~720-800px) */
+  @media (max-width: 1000px) {
+    .filtros { grid-template-columns: 1fr 1fr 1fr; }
+    .filtros input[type=search] { grid-column: 1 / -1; }
+    .contadores { margin-left: 0; }
   }
+  /* celular, só por garantia */
   @media (max-width: 600px) {
+    .topo, .filtros, main { padding-left: 12px; padding-right: 12px; }
+    .filtros { grid-template-columns: 1fr 1fr; }
+    .lista { grid-template-columns: 1fr; }
     header { position: static; }
-    .filtros select { flex: 1 1 45%; }
   }
 </style>
 </head>
@@ -74,21 +106,21 @@
     <div class="contadores" id="contadores"></div>
   </div>
   <div class="filtros">
-    <input type="search" id="q" placeholder="Buscar por nome, @ ou bairro" aria-label="Buscar">
+    <input type="search" id="q" placeholder="Buscar nome, @ ou bairro" aria-label="Buscar" enterkeyhint="search" autocomplete="off">
     <select id="status" aria-label="Status">
-      <option value="">Todos os status</option>
+      <option value="">Status: todos</option>
       <option>Não contatado</option>
       <option>Mensagem enviada</option>
     </select>
     <select id="obs" aria-label="Observação">
-      <option value="">Toda observação</option>
+      <option value="">Observação: todas</option>
       <option value="-">Sem observação</option>
       <option>Seguindo</option>
       <option>Não tem insta</option>
     </select>
-    <select id="cidade" aria-label="Cidade"><option value="">Todas as cidades</option></select>
-    <select id="segmento" aria-label="Segmento"><option value="">Todos os segmentos</option></select>
-    <label><input type="checkbox" id="ig"> Só com Instagram</label>
+    <select id="cidade" aria-label="Cidade"><option value="">Cidade: todas</option></select>
+    <select id="segmento" aria-label="Segmento"><option value="">Segmento: todos</option></select>
+    <label class="alternar"><input type="checkbox" id="ig"> Só com Instagram</label>
   </div>
 </header>
 <main>
@@ -120,7 +152,7 @@ async function carregar() {
   const meu = ++pedido;
   const p = new URLSearchParams(Object.fromEntries(FILTROS.map(f => [f, valor(f)]).filter(([, v]) => v)));
   p.set('pagina', pagina);
-  $('lista').classList.add('salvando');
+  $('lista').classList.add('carregando');
   try {
     const r = await fetch('/api/leads?' + p);
     const d = await r.json();
@@ -128,9 +160,7 @@ async function carregar() {
     if (!r.ok) throw new Error(d.erro || r.status);
     if (!opcoesProntas) {
       const preencher = (sel, lista) => {
-        const atual = $(sel).value;
         lista.forEach(([v, n]) => $(sel).insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)} (${n.toLocaleString('pt-BR')})</option>`));
-        $(sel).value = atual;
       };
       preencher('cidade', d.opcoes.cidades);
       preencher('segmento', d.opcoes.segmentos);
@@ -145,52 +175,56 @@ async function carregar() {
   } catch (e) {
     $('lista').innerHTML = `<div class="aviso erro">Não foi possível carregar os leads: ${esc(e.message)}</div>`;
   } finally {
-    if (meu === pedido) $('lista').classList.remove('salvando');
+    if (meu === pedido) $('lista').classList.remove('carregando');
   }
 }
 
-function igLink(l) {
-  if (l.ig) {
-    const h = l.ig.replace(/^@/, '');
-    return `<a class="ig" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener">Abrir @${esc(h)}</a>`;
-  }
-  const q = encodeURIComponent(`${l.nome} ${l.cidade} instagram`);
-  return `<a class="ig buscar" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">Procurar Instagram no Google</a>`;
-}
+const handle = l => l.ig ? l.ig.replace(/^@/, '') : '';
+const linkIg = l => `https://www.instagram.com/${encodeURIComponent(handle(l))}/`;
+const linkBusca = l => `https://www.google.com/search?q=${encodeURIComponent(`${l.nome} ${l.cidade} instagram`)}`;
 
 function card(l) {
   const enviada = l.status !== 'Não contatado';
   const outroSt = !['Não contatado', 'Mensagem enviada'].includes(l.status);
   const outraObs = l.obs && !['Seguindo', 'Não tem insta'].includes(l.obs);
   const local = [l.bairro, l.cidade !== l.bairro ? l.cidade : ''].filter(Boolean).join(', ');
+  // ação principal: copia a mensagem e já abre o perfil (no tablet abre o app do Instagram)
+  const principal = l.ig
+    ? `<a class="acao-principal" data-copiar-abrir href="${linkIg(l)}" target="_blank" rel="noopener">Copiar e abrir Instagram</a>`
+    : `<a class="acao-principal sec" href="${linkBusca(l)}" target="_blank" rel="noopener">Procurar Instagram no Google</a>`;
   return `<article class="lead ${enviada ? 'enviada' : ''}" data-id="${esc(l.id)}">
-    <div class="ident">
+    <div>
       <div class="nome">${esc(l.nome)}</div>
       <div class="meta">${esc(l.segmento)}${local ? ' · ' + esc(local) : ''}</div>
-      ${igLink(l)}
+      <div class="handle ${l.ig ? '' : 'sem'}">${l.ig ? '@' + esc(handle(l)) : 'Sem Instagram na planilha'}</div>
     </div>
-    <div><span class="rotulo">Status</span><div class="seg">
+    <div>
+      <p class="msg"><span>${esc(l.msg)}</span></p>
+      <button class="ver-msg" data-ver>Ver mensagem inteira</button>
+    </div>
+    ${principal}
+    <div class="acoes-sec">
+      <button class="btn-sec" data-copiar>Só copiar</button>
+      ${l.ig ? `<a class="btn-sec" href="${linkIg(l)}" target="_blank" rel="noopener">Só abrir perfil</a>`
+             : `<a class="btn-sec" href="${linkBusca(l)}" target="_blank" rel="noopener">Buscar no Google</a>`}
+    </div>
+    <div class="grupo"><span class="rotulo">Status</span><div class="seg">
       <button data-status="Não contatado" class="${l.status === 'Não contatado' ? 'on cinza' : ''}">Não contatado</button>
-      <button data-status="Mensagem enviada" class="${l.status === 'Mensagem enviada' ? 'on' : ''}">Mensagem enviada</button>
-      ${outroSt ? `<button class="on" disabled title="Status vindo da planilha">${esc(l.status)}</button>` : ''}
+      <button data-status="Mensagem enviada" class="${l.status === 'Mensagem enviada' || outroSt ? 'on' : ''}">Mensagem enviada</button>
+      ${outroSt ? `<div class="extra">Na planilha: ${esc(l.status)}</div>` : ''}
     </div></div>
-    <div><span class="rotulo">Observação</span><div class="seg">
+    <div class="grupo"><span class="rotulo">Observação</span><div class="seg">
       <button data-obs="Seguindo" class="${l.obs === 'Seguindo' ? 'on verde' : ''}">Seguindo</button>
       <button data-obs="Não tem insta" class="${l.obs === 'Não tem insta' ? 'on cinza' : ''}">Não tem insta</button>
-      ${outraObs ? `<button class="on" disabled title="${esc(l.obs)}">${esc(String(l.obs).slice(0, 28))}</button>` : ''}
+      ${outraObs ? `<div class="extra">Na planilha: ${esc(l.obs)}</div>` : ''}
     </div></div>
-    <div class="msg"><span class="rotulo">Mensagem</span>
-      <p title="Clique para ver inteira">${esc(l.msg)}</p>
-      <div class="acoes">
-        <button class="btn prim" data-copiar>Copiar mensagem</button>
-        ${!enviada ? '<button class="btn sec" data-enviada>Marcar enviada</button>' : ''}
-      </div>
-    </div>
   </article>`;
 }
 
 function render(d) {
   $('lista').innerHTML = itens.length ? itens.map(card).join('') : '<div class="aviso">Nenhum lead com esses filtros.</div>';
+  // esconde "ver mensagem inteira" quando o texto já cabe
+  document.querySelectorAll('.lead .msg span').forEach(t => { if (t.scrollHeight <= t.clientHeight + 2) t.parentElement.nextElementSibling.remove(); });
   $('pag').innerHTML = d.paginas > 1
     ? `<button id="ant" ${d.pagina === 0 ? 'disabled' : ''}>← Anterior</button> Página ${d.pagina + 1} de ${d.paginas} <button id="prox" ${d.pagina >= d.paginas - 1 ? 'disabled' : ''}>Próxima →</button>`
     : '';
@@ -209,7 +243,7 @@ function contadores(d) {
 
 function toast(t) {
   $('toast').textContent = t; $('toast').classList.add('on');
-  clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('on'), 2200);
+  clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('on'), 2400);
 }
 
 // aplica no card e nos contadores; devolve o estado anterior para poder desfazer
@@ -225,12 +259,19 @@ function aplicar(l, novo) {
     contadores(ultimo);
   }
   const art = document.querySelector(`.lead[data-id="${CSS.escape(l.id)}"]`);
-  if (art) art.outerHTML = card(l);
+  if (art) {
+    const aberta = art.querySelector('.msg.aberta');
+    art.outerHTML = card(l);
+    const novoArt = document.querySelector(`.lead[data-id="${CSS.escape(l.id)}"]`);
+    const t = novoArt.querySelector('.msg span');
+    if (aberta) { t.parentElement.classList.add('aberta'); novoArt.querySelector('[data-ver]')?.remove(); }
+    else if (t.scrollHeight <= t.clientHeight + 2) novoArt.querySelector('[data-ver]')?.remove();
+  }
   return antes;
 }
 
 // a tela muda na hora; a planilha do Google leva alguns segundos e, se falhar, desfaz
-async function marcar(art, l, campos) {
+async function marcar(l, campos) {
   const antes = aplicar(l, { status: campos.status ?? l.status, obs: 'obs' in campos ? campos.obs : l.obs });
   try {
     const r = await fetch('/api/marcar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: l.id, ...campos }) });
@@ -244,36 +285,52 @@ async function marcar(art, l, campos) {
   }
 }
 
-async function copiar(texto) {
-  try { await navigator.clipboard.writeText(texto); }
-  catch (e) {
-    const t = document.createElement('textarea'); t.value = texto; document.body.appendChild(t); t.select();
-    document.execCommand('copy'); t.remove();
-  }
+function copiar(texto) {
+  // sem await: o toque continua valendo para abrir o Instagram logo em seguida
+  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(texto).catch(() => copiarAntigo(texto));
+  copiarAntigo(texto);
+  return Promise.resolve();
+}
+function copiarAntigo(texto) {
+  const t = document.createElement('textarea');
+  t.value = texto; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+  document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
 }
 
-$('lista').addEventListener('click', async e => {
+function avisarCopiado(b, rotulo) {
+  b.classList.add('ok'); const txt = b.textContent; b.textContent = rotulo;
+  setTimeout(() => { b.classList.remove('ok'); b.textContent = txt; }, 1600);
+}
+
+$('lista').addEventListener('click', e => {
   const art = e.target.closest('.lead'); if (!art) return;
   const l = itens.find(x => x.id === art.dataset.id);
-  if (e.target.matches('.msg p')) { e.target.classList.toggle('aberta'); return; }
-  const b = e.target.closest('button');
-  if (!b || b.disabled) return;
-  if (b.dataset.status) { if (b.dataset.status !== l.status) marcar(art, l, { status: b.dataset.status }); }
-  else if (b.dataset.obs) marcar(art, l, { obs: l.obs === b.dataset.obs ? '' : b.dataset.obs });
-  else if (b.hasAttribute('data-enviada')) marcar(art, l, { status: 'Mensagem enviada' });
-  else if (b.hasAttribute('data-copiar')) {
-    await copiar(l.msg);
-    b.textContent = 'Copiada!'; b.classList.add('ok');
-    setTimeout(() => { b.textContent = 'Copiar mensagem'; b.classList.remove('ok'); }, 1500);
-    toast('Mensagem copiada. Cole no direct do Instagram.');
+  const alvo = e.target.closest('button, a');
+  if (!alvo) return;
+  if (alvo.hasAttribute('data-ver')) {
+    art.querySelector('.msg').classList.add('aberta'); alvo.remove(); return;
   }
+  if (alvo.hasAttribute('data-copiar-abrir')) {
+    // deixa o link abrir normalmente; só copia antes
+    copiar(l.msg);
+    avisarCopiado(alvo, 'Copiada! Abrindo Instagram...');
+    toast('Mensagem copiada. No Instagram, toque em Mensagem e cole.');
+    return;
+  }
+  if (alvo.hasAttribute('data-copiar')) {
+    copiar(l.msg); avisarCopiado(alvo, 'Copiada!'); toast('Mensagem copiada.'); return;
+  }
+  if (alvo.dataset.status) { if (alvo.dataset.status !== l.status) marcar(l, { status: alvo.dataset.status }); return; }
+  if (alvo.dataset.obs) marcar(l, { obs: l.obs === alvo.dataset.obs ? '' : alvo.dataset.obs });
 });
 
 let atraso;
 FILTROS.forEach(id => $(id).addEventListener(id === 'q' ? 'input' : 'change', () => {
   clearTimeout(atraso);
-  atraso = setTimeout(() => { pagina = 0; salvarFiltros(); carregar(); }, id === 'q' ? 350 : 0);
+  atraso = setTimeout(() => { pagina = 0; salvarFiltros(); carregar(); }, id === 'q' ? 400 : 0);
 }));
+// "pesquisar" do teclado do tablet fecha o teclado
+$('q').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); });
 
 restaurarFiltros();
 carregar();
