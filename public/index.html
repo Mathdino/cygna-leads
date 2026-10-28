@@ -278,9 +278,14 @@ function aplicar(l, novo) {
   return antes;
 }
 
-// a tela muda na hora; a planilha do Google leva alguns segundos e, se falhar, desfaz
-async function marcar(l, campos) {
+// a tela muda na hora; a planilha do Google leva alguns segundos e, se falhar, desfaz.
+// Os envios vão um por vez: cliques rápidos em sequência disputavam o Apps Script ao mesmo tempo.
+let fila = Promise.resolve();
+function marcar(l, campos) {
   const antes = aplicar(l, { status: campos.status ?? l.status, obs: 'obs' in campos ? campos.obs : l.obs });
+  fila = fila.then(() => enviar(l, campos, antes));
+}
+async function enviar(l, campos, antes) {
   try {
     const r = await fetch('/api/marcar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: l.id, ...campos }) });
     const d = await r.json();
